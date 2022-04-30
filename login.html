@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/style.css">
+    <title>Document</title>
+</head>
+<style>
+    #login {
+        display: grid;
+        width: 20%;
+        margin: auto;
+        gap: 20px;
+        padding: 3%;
+        box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    }
+
+    input,
+    button {
+        height: 25px;
+    }
+</style>
+
+<body>
+    <div id="navbar"></div>
+    <br>
+    <div id="login">
+        <input type="text" id="username" placeholder="username" />
+        <input type="password" id="password" placeholder="password" />
+        <button id="submit">Login</button>
+    </div>
+
+</body>
+
+</html>
+<script type="module">
+
+    import navbar from "./conponent/navbar.js";
+
+    document.getElementById("navbar").innerHTML = navbar()
+
+    // document.getElementById("submit").addEventListener("click", () => {
+    //     login(event)
+    // });
+
+
+    let login = async (e) => {
+    e.preventDefault();
+    let user_data = {
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value,
+    };
+
+    user_data = JSON.stringify(user_data);
+
+    let res = await fetch("https://masai-api-mocker.herokuapp.com/auth/login", {
+      method: "POST",
+
+      body: user_data,
+      // mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    let data = await res.json();
+    let username = document.getElementById("username").value;
+    getUserDetail(username, data.token);
+
+    //console.log(data);
+  };
+
+  document.getElementById("submit").addEventListener("click", login);
+  //let getUserDetail = async(uername);
+
+  let getUserDetail = async (username, token) => {
+    console.log("here");
+    let res = await fetch(
+      `https://masai-api-mocker.herokuapp.com/user/${username}`,
+      {
+        //mode: "no-cors",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    let data = await res.json();
+    console.log("user data: ", data);
+  };
+
+
+
+
+</script>

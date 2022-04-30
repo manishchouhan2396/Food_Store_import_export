@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/style.css">
+    <title>Document</title>
+</head>
+<style>
+    form {
+        display: grid;
+        width: 20%;
+        margin: auto;
+        gap: 20px;
+        padding: 3%;
+        box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    }
+
+    input,
+    button {
+        height: 25px;
+        width: 300px;
+    }
+</style>
+
+<body>
+    <div id="navbar"></div>
+    <br>
+
+
+    <form>
+        <input type="text" id="name" placeholder="Name" />
+        <input type="email" id="email" placeholder="Email" />
+        <input type="password" id="password" placeholder="Password" />
+        <input type="text" id="uername" placeholder="User Name" />
+        <input type="number" id="mobile" placeholder="Mobile" />
+        <input type="text" id="description" placeholder="Description" />
+        <button id="submit">Submit</button>
+    </form>
+</body>
+
+</html>
+<script type="module">
+
+    import navbar from "./conponent/navbar.js";
+
+    document.getElementById("navbar").innerHTML = navbar()
+
+    document.getElementById("submit").addEventListener("click", () => {
+        register(event);
+    })
+
+
+//   document.getElementById("submit").addEventListener("click", () => {
+//     // function phle likhte hai then invoke krte hai.
+//     register(event);
+//   });
+
+   
+  let register = async (e) => {
+    e.preventDefault();
+
+    let form_data = {
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value,
+      username: document.getElementById("uername").value,
+      mobile: document.getElementById("mobile").value,
+      description: document.getElementById("description").value,
+    };
+
+    form_data = JSON.stringify(form_data);
+    //console.log(form_data);
+    let res = await fetch(
+      "https://masai-api-mocker.herokuapp.com/auth/register",
+      {
+        method: "POST",
+
+        body: form_data,
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    let data = await res.json();
+    console.log(data)
+  };
+
+    
+</script>

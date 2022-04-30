@@ -1,0 +1,9 @@
+#input{
+    display: flex;
+    justify-content: center;
+}
+#query{
+    height: 30px;
+    width: 300px;
+    font-size: 25px;
+}
